@@ -1,0 +1,33 @@
+# Binaries
+ddns-app
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Go build/test artifacts
+*.test
+*.out
+coverage.out
+coverage.txt
+cover.out
+
+# Go workspaces
+go.work
+go.work.sum
+
+# Go environment
+.env
+.env.*
+
+# IDE/editor
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

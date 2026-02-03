@@ -1,0 +1,20 @@
+# BUILD STAGE
+FROM golang:1.25-alpine AS builder
+RUN apk add --no-cache git
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o ddns-app ./cmd/ddns
+
+# RUNTIME STAGE
+FROM alpine:3
+RUN apk add --no-cache ca-certificates tzdata
+WORKDIR /
+COPY --from=builder /app/ddns-app /usr/local/bin/ddns-app
+
+# Run as non-privileged user
+RUN adduser -D dnsuser
+USER dnsuser
+
+ENTRYPOINT ["ddns-app"]
